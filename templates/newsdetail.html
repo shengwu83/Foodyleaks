@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{%block content%}
+    <div class="container">
+
+      <div class="row-fluid">
+        <div class="span8">
+            <div class="row-fluid">
+                <ul class="span12 ">
+                    <li class="text-right pull-right">
+                    <a href="#edit_post" role="button" class="btn" data-toggle="modal">修改</a> <a href="#rm_post" role="button" class="btn" data-toggle="modal">檢舉</a></li>
+                    <li><h3>{{n.title}}</h3></li>
+                    <li>{{n.media}}</li>
+                    <li>{{n.content}}</li>
+                    <li class="text-right"> 最後編輯於 </li>
+                    <li><div class="fb-like" data-href="http://www.ursalary.com/detail.php?id=19749" data-send="false" data-width="450" data-show-faces="true"></div></li>
+                </ul>
+            </div>            
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2014</p>
+      </footer>
+
+    </div><!--/.container-->
+ 
+{%endblock%}
