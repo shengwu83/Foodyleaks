@@ -5,15 +5,50 @@
 {% endblock %}
 
 {%block script%}
-  <script src="http://d3js.org/d3.v3.min.js"></script>
-  d3.selectAll("p").style("color", "white");
+     
+     <style>
+        body {
+          font: 10px sans-serif;
+        }
+        
+        .arc path {
+          stroke: #fff;
+        }
+     </style>
 {% endblock %}
 
 {%block content%}
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-  
-
-           <h1 class="page-header">違規列表</h2>
+     
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-0">
+          <h1 class="page-header">違規紀錄 Top5</h2>
+          <div class="col-md-4">
+               <h3 class="page-subheader"> 農藥超標 </h3>
+          </div>  
+          <div class="col-md-8">
+               <h3 class="page-subheader"> 不符實用 </h3>
+          </div>
+          <div class="col-md-4">
+               <div id="body"></div>
+          </div>  
+          <div class="col-md-8">
+               <div id="body2"></div>
+          </div>
+          <form action="/pest" id="searchform">
+               <select name="cate" form="searchform">
+                    <option value="1" selected> 種類 </option>
+                    <option value="1"> 農藥超標 </option>
+                    <option value="2"> 不符使用 </option>
+                    <option value="3"> 廣告不實 </option>
+               </select>
+               <select name="date" form="searchform">
+                    <option value="103" selected> 日期 </option>
+                    <option value="101"> 101 </option>
+                    <option value="102"> 102 </option>
+                    <option value="103"> 103 </option>
+               </select>
+               <input type="submit">
+          </form>
           <div class="table-responsive">
             <table class="table table-condensed table-striped">
               <thead>
@@ -32,10 +67,97 @@
                           <td>{{ v.date }}</td>
                           <td>{{ v.product }}</td>
                           <td>{{ v.invalid }}</td>
-                          <td>{{ v.address }}</td>
+                          <td>{{ v.location }}</td>
                       </tr>
                   {% endfor %}
               </tbody>
             </table>
         </div>
+     </div>
+    
+     <script>
+     var width = 250,
+    height = 250,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.category20c();
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.population; });
+
+var svg = d3.select("#body").append("svg")
+     .attr("width", width)
+     .attr("height", height)
+     .append("g")
+     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  data = [{"age": "\u5c0f\u767d\u83dc", "sum": "\u5c0f\u767d\u83dc 19", "population": 19}, {"age": "\u5c0f\u9ec3\u74dc", "sum": "\u5c0f\u9ec3\u74dc 19", "population": 19}, {"age": "\u56db\u5b63\u8c46", "sum": "\u56db\u5b63\u8c46 22", "population": 22}, {"age": "\u9752\u6c5f\u83dc", "sum": "\u9752\u6c5f\u83dc 27", "population": 27}, {"age": "\u654f\u8c46", "sum": "\u654f\u8c46 30", "population": 30}]
+  data.forEach(function(d) {
+    d.population = +d.population;
+  });
+
+var g = svg.selectAll(".arc")
+     .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc");
+
+  g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color(d.data.age); });
+
+  g.append("text")
+      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.sum; });
+    </script>
+     
+     <script>
+     var width = 250,
+    height = 250,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.category20();
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.population; });
+
+var svg = d3.select("#body2").append("svg")
+     .attr("width", width)
+     .attr("height", height)
+     .append("g")
+     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  data =[{"age": "\u5c0f\u9ec3\u74dc", "sum": "\u5c0f\u9ec3\u74dc 17", "population": 17}, {"age": "\u7a7a\u5fc3\u83dc", "sum": "\u7a7a\u5fc3\u83dc 17", "population": 17}, {"age": "\u56db\u5b63\u8c46", "sum": "\u56db\u5b63\u8c46 18", "population": 18}, {"age": "\u83dc\u8c46", "sum": "\u83dc\u8c46 18", "population": 18}, {"age": "\u654f\u8c46", "sum": "\u654f\u8c46 20", "population": 20}]
+  data.forEach(function(d) {
+    d.population = +d.population;
+  });
+
+var g = svg.selectAll(".arc")
+     .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc");
+
+  g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color(d.data.age); });
+
+  g.append("text")
+      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.sum; });
+    </script>
+     
+     
 {%endblock%}
