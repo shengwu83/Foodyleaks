@@ -47,6 +47,8 @@
                     <option value="102"> 102 </option>
                     <option value="103"> 103 </option>
                </select>
+               關鍵詞:
+               <input type="text" name="key" value="">
                <input type="submit">
           </form>
           <div class="table-responsive">
@@ -63,10 +65,13 @@
               <tbody>
                   {% for v in vs %}
                       <tr>
-                          <td>{{ v.category }}</td>
-                          <td>{{ v.date }}</td>
-                          <td>{{ v.product }}</td>
-                          <td>{{ v.invalid }}</td>
+                          <td class="filterable-cell">{{ v.category }}</td>
+                          <td class="filterable-cell">{{ v.date }}</td>
+                          <td class="filterable-cell">{{ v.product }}</td>
+                          <td class="filterable-cell">
+                           <a href="#" id="example"  rel="popover" 
+    data-content="<div>This <b>is</b> your div content</div>" 
+    data-html="true" data-original-title="A Title">{{ v.invalid }}</a></td>
                           <td>{{ v.location }}</td>
                       </tr>
                   {% endfor %}
@@ -74,6 +79,19 @@
             </table>
         </div>
      </div>
+   
+   
+   <ul class="pagination">
+      <li><a href="/pest/?{{params}}&page={{current|add:"-1"}}">&laquo;</a></li>
+      {% for x in pages %}
+         {% if x == page%}
+            <li class="active"><a href="/pest/?{{params}}&page={{x}}">{{ x }}</a></li>
+         {%else%}
+            <li><a href="/pest/?{{params}}&page={{x}}">{{ x }}</a></li>
+         {%endif%}
+      {% endfor %}
+      <li><a href="/pest/?{{params}}&page={{current|add:"1"}}">&raquo;</a></li>
+   </ul>
     
      <script>
      var width = 250,

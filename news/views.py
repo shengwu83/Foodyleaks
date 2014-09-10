@@ -10,10 +10,26 @@ def news_detail(resquest,news_id):
     return render_to_response('newsdetail.html',{"title":n.title,"n":n})
 
 def news(resquest):
-    bign = News.objects.all().order_by('-timestamp')[0]
-    ns = News.objects.all().order_by('-timestamp')[1:11]
+    page = resquest.GET.get('page')
     
-    return render_to_response("news.html", {"title":"News","ns":ns,"bign":bign})
+    if page is not None:
+        page = int(page) - 1
+        first = page * 10 + 1
+        last = first + 11
+    else:
+        page = 0
+        first = 1
+        last = 11
+    ns_all = News.objects.all().order_by('-timestamp')
+    pages = ns_all.count()
+    
+    bign = News.objects.all().order_by('-timestamp')[first]
+    ns = News.objects.all().order_by('-timestamp')[first:last]
+    
+    return render_to_response("news.html", {"title":"News",
+                                            "ns":ns,"bign":bign,
+                                            "pages":range(1,11),
+                                            "page": page+1})
 
 def trend(resquest):
     print 'trend'

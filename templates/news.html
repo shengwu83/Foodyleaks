@@ -15,7 +15,7 @@
           </p>
             <div class="jumbotron">
                 <h1>{{bign.title}}</h1>
-                <span> {{ bign.timestamp }}</span>
+                <span> {{ bign.date }}</span>
                 <p>&nbsp;&nbsp;{{bign.content|slice:":120"}}</p>
             <p><a class="btn btn-default" href="/news/detail/{{bign.id}}" role="button">繼續閱讀</a></p>
             </div>
@@ -23,7 +23,7 @@
             {% for n in ns %}
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>{{ n.title|slice:"15" }}</h2>
-              <span> {{ n.timestamp }}</span>
+              <span> {{ n.date }}</span>
               <p>&nbsp;&nbsp;{{ n.content|slice:":60" }}</p>
               <p><a class="btn btn-default" href="/news/detail/{{n.id}}" role="button">繼續閱讀</a></p>
             </div><!--/span-->
@@ -31,11 +31,22 @@
           </div><!--/row-->
         </div><!--/span-->
       </div><!--/row-->
-
+      
+      <ul class="pagination">
+        <li><a href="/news/page={{page|add:"-1"}}">&laquo;</a></li>
+        {% for x in pages %}
+          {% if x == page%}
+            <li class="active"><a href="/news/?page={{x}}">{{ x }}</a></li>
+          {% else%}
+           <li><a href="/news/?page={{x}}">{{ x }}</a></li>
+          {% endif %}
+        {% endfor %}
+        <li><a href="/news/?page={{page|add:"1"}}">&raquo;</a></li>
+      </ul>
       <hr>
 
       <footer>
-        <p>&copy; Company 2014</p>
+        <p>&copy; DAFish 2014</p>
       </footer>
 
     </div><!--/.container-->

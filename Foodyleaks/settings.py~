@@ -19,7 +19,7 @@ print BASE_DIR
 SECRET_KEY = '^)o#0r2giy%)5liv@afq__9g$6hv8(3b8fb5rks*ag%xmx%0rv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -64,7 +64,7 @@ DATABASES = {
         'NAME': 'food',
         'USER': 'alex1234',
         'PASSWORD': 'alex1234',
-        'HOST': '192.168.0.101',   # Or an IP Address that your DB is hosted on
+        'HOST': '140.115.202.121',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
