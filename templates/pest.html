@@ -5,22 +5,21 @@
 {% endblock %}
 
 {%block script%}
-     
-     <style>
-        body {
-          font: 10px sans-serif;
-        }
-        
-        .arc path {
-          stroke: #fff;
-        }
-     </style>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 {% endblock %}
 
 {%block content%}
-     
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-0">
+      <script>
+      $(document).ready(function(){
+          $(".Description a").popover({
+              placement : 'top'
+          });
+      });
+      </script>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      
+      <div class="col-sm-9 col-sm-offset-3 col-md-12 col-md-offset-0">
           <h1 class="page-header">違規紀錄 Top5</h2>
           <div class="col-md-4">
                <h3 class="page-subheader"> 農藥超標 </h3>
@@ -62,27 +61,32 @@
                     <th>地點</th>
                   </tr>
               </thead>
+              
+      
               <tbody>
+                  
                   {% for v in vs %}
                       <tr>
-                          <td class="filterable-cell">{{ v.category }}</td>
-                          <td class="filterable-cell">{{ v.date }}</td>
-                          <td class="filterable-cell">{{ v.product }}</td>
-                          <td class="filterable-cell">
-                           <a href="#" id="example"  rel="popover" 
-    data-content="<div>This <b>is</b> your div content</div>" 
-    data-html="true" data-original-title="A Title">{{ v.invalid }}</a></td>
-                          <td>{{ v.location }}</td>
+                           <td class="filterable-cell">{{ v.category }}</td>
+                           <td class="filterable-cell">{{ v.date }}</td>
+                           <td class="filterable-cell">{{ v.product }}</td>
+                           <td class="filterable-cell">
+                           <div class="Description"><a href="#Description" data-toggle="popover" title="" 
+                           data-content="尚無資料">{{ v.invalid }}</a></div></td>
+                           <td>{{ v.location }}</td>
+                           
                       </tr>
                   {% endfor %}
+                  
               </tbody>
+              
             </table>
         </div>
      </div>
    
    
    <ul class="pagination">
-      <li><a href="/pest/?{{params}}&page={{current|add:"-1"}}">&laquo;</a></li>
+      <li><a href="/pest/?{{params}}&page={{page|add:"-1"}}">&laquo;</a></li>
       {% for x in pages %}
          {% if x == page%}
             <li class="active"><a href="/pest/?{{params}}&page={{x}}">{{ x }}</a></li>
@@ -90,7 +94,7 @@
             <li><a href="/pest/?{{params}}&page={{x}}">{{ x }}</a></li>
          {%endif%}
       {% endfor %}
-      <li><a href="/pest/?{{params}}&page={{current|add:"1"}}">&raquo;</a></li>
+      <li><a href="/pest/?{{params}}&page={{page|add:"1"}}">&raquo;</a></li>
    </ul>
     
      <script>
